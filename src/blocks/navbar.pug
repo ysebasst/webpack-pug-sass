@@ -1,0 +1,22 @@
+include ../mixins/menuItem.pug
+
+-
+  const links = [
+    {
+      path: "/",
+      text: "Inicio"
+    },
+    {
+      path: "/about",
+      text: "About"
+    }
+  ]
+
+nav.nav
+  .nav__container
+    span.nav__toggle(role="button", aria-label="toggle menu")
+      include ../icons/icon-menu.pug
+    span.nav__brand: a(href="/") Navbar
+    ul.nav__menu
+      each link in links 
+        +menuItem(link)

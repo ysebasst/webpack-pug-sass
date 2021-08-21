@@ -1,0 +1,34 @@
+@use "../config/colors" as color;
+@use "../config/fonts" as font;
+
+:root {
+  // Fonts
+  --font-default: #{font.$default};
+  --font-heading: #{font.$heading};
+
+  --color-black: #{color.$black};
+  --color-white: #{color.$white};
+
+  --color-dark: #{color.$dark};
+  --color-light: #{color.$light};
+
+  --color-blue: #{color.$blue};
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  font-family: var(--font-default);
+  color: var(--color-black);
+  background-color: var(--color-light);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
