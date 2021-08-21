@@ -45,9 +45,10 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, "pages"),
+      directory: path.resolve("src", "pages"),
     },
     compress: true,
     port: 3000,
+    allowedHosts: "all",
   },
 };
