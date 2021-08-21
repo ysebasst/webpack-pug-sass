@@ -2,7 +2,10 @@ const path = require("path");
 const basePath = __dirname;
 const distPath = "dist";
 
+const devMode = process.env.NODE_ENV !== "production";
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
@@ -12,15 +15,23 @@ module.exports = {
     app: "./src/index.js",
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: devMode ? "styles.css" : "styles.[contenthash].css",
+      chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve("src", "pages", "index.pug"),
       filename: "index.html",
     }),
     new HtmlWebpackPlugin({
+      template: path.resolve("src", "pages", "404.pug"),
+      filename: "404.html",
+    }),
+    new HtmlWebpackPlugin({
       template: path.resolve("src", "pages", "about", "index.pug"),
       filename: "about/index.html",
     }),
-    new FaviconsWebpackPlugin(path.resolve("src", "public", "logo-python.png")),
+    // new FaviconsWebpackPlugin(path.resolve("src", "static", "images", "logo-python.png")),
   ],
   module: {
     rules: [
@@ -35,7 +46,21 @@ module.exports = {
       },
       {
         test: /\.(s(a|c)ss)$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.(png|gif|jpg|jpeg|ico)/,
+        loader: "file-loader",
+        options: {
+          name: "/static/images/[name].[ext]",
+        },
+      },
+      {
+        test: /\.htaccess/,
+        loader: "file-loader",
+        options: {
+          name: "[name]",
+        },
       },
     ],
   },
